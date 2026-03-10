@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SujayOS v1.0 — Sujay Arun Panda · Full-Stack Developer</title>
+  <meta name="description" content="Sujay Arun Panda — Full-Stack Developer & MCA Student. A macOS-inspired portfolio experience: SujayOS v1.0." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- CRT Overlay -->
+  <div class="crt-overlay" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════ MENU BAR ═══════════════════════ -->
+  <header class="menu-bar" role="banner">
+    <nav class="menu-bar-left" aria-label="System Menu">
+      <!-- Apple/Sujay Logo -->
+      <div class="menu-item menu-logo" id="appleMenu" aria-haspopup="true" aria-expanded="false" tabindex="0" role="button">
+        <canvas id="logoCanvas" width="18" height="18" title="SujayOS"></canvas>
+        <div class="dropdown" id="appleDropdown" role="menu" aria-label="Quick Access">
+          <div class="dropdown-header">SujayOS v1.0</div>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="mailto:sujayarunpanda@gmail.com" role="menuitem">
+            <span class="dropdown-icon">✉</span> sujayarunpanda@gmail.com
+          </a>
+          <a class="dropdown-item" id="downloadResume" href="#" role="menuitem">
+            <span class="dropdown-icon">⬇</span> Download Résumé (PDF)
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="https://github.com/sujayarunpanda" target="_blank" rel="noopener" role="menuitem">
+            <span class="dropdown-icon">⌥</span> GitHub
+          </a>
+          <a class="dropdown-item" href="https://linkedin.com/in/sujayarunpanda" target="_blank" rel="noopener" role="menuitem">
+            <span class="dropdown-icon">⌘</span> LinkedIn
+          </a>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="shutdownBtn" role="menuitem" tabindex="0">
+            <span class="dropdown-icon">⏻</span> Shut Down…
+          </div>
+        </div>
+      </div>
+      <div class="menu-item menu-title">Finder</div>
+      <div class="menu-item" id="fileMenu" aria-haspopup="true">File
+        <div class="dropdown" id="fileDropdown">
+          <div class="dropdown-item" data-window="education">Open Education</div>
+          <div class="dropdown-item" data-window="worklog">Open Work Log</div>
+          <div class="dropdown-item" data-window="projects">Open Projects</div>
+          <div class="dropdown-item" data-window="specs">Open System Specs</div>
+          <div class="dropdown-item" data-window="habitforge">Open HabitForge</div>
+        </div>
+      </div>
+      <div class="menu-item" id="viewMenu">View</div>
+      <div class="menu-item" id="helpMenu">Help</div>
+    </nav>
+    <nav class="menu-bar-right" aria-label="Status Bar">
+      <div class="menu-item status-item" id="batteryStatus">⚡ 97%</div>
+      <div class="menu-item status-item" id="wifiStatus">▲ Connected</div>
+      <div class="menu-item status-item" id="clockDisplay"></div>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════ DESKTOP ═══════════════════════ -->
+  <main class="desktop" id="desktop" aria-label="SujayOS Desktop">
+
+    <!-- Desktop Icons -->
+    <div class="desktop-icons" role="list" aria-label="Desktop Items">
+
+      <!-- Education Folder -->
+      <div class="desktop-icon" id="icon-education" data-window="education" role="listitem" tabindex="0" aria-label="Education folder">
+        <div class="icon-art">
+          <canvas class="icon-canvas" data-type="folder-edu" width="64" height="56"></canvas>
+        </div>
+        <div class="icon-label">Education</div>
+      </div>
+
+      <!-- Work Log Folder -->
+      <div class="desktop-icon" id="icon-worklog" data-window="worklog" role="listitem" tabindex="0" aria-label="Work Log folder">
+        <div class="icon-art">
+          <canvas class="icon-canvas" data-type="folder-work" width="64" height="56"></canvas>
+        </div>
+        <div class="icon-label">Work_Log</div>
+      </div>
+
+      <!-- Projects Folder -->
+      <div class="desktop-icon" id="icon-projects" data-window="projects" role="listitem" tabindex="0" aria-label="Projects folder">
+        <div class="icon-art">
+          <canvas class="icon-canvas" data-type="folder-proj" width="64" height="56"></canvas>
+        </div>
+        <div class="icon-label">Projects</div>
+      </div>
+
+      <!-- System Specs Folder -->
+      <div class="desktop-icon" id="icon-specs" data-window="specs" role="listitem" tabindex="0" aria-label="System Specs folder">
+        <div class="icon-art">
+          <canvas class="icon-canvas" data-type="folder-spec" width="64" height="56"></canvas>
+        </div>
+        <div class="icon-label">System_Specs</div>
+      </div>
+
+      <!-- HabitForge App -->
+      <div class="desktop-icon" id="icon-habitforge" data-window="habitforge" role="listitem" tabindex="0" aria-label="HabitForge application">
+        <div class="icon-art habitforge-icon">
+          <canvas class="icon-canvas" data-type="habitforge" width="64" height="64"></canvas>
+        </div>
+        <div class="icon-label">HabitForge.app</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════ WINDOWS ═══════════════════════ -->
+
+    <!-- Education Window -->
+    <div class="window" id="win-education" role="dialog" aria-labelledby="win-education-title" aria-modal="false" style="left:120px;top:80px;width:560px;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="win-btn close" aria-label="Close" data-action="close" data-target="win-education"></button>
+          <button class="win-btn minimize" aria-label="Minimize" data-action="minimize" data-target="win-education"></button>
+          <button class="win-btn maximize" aria-label="Maximize" data-action="maximize" data-target="win-education"></button>
+        </div>
+        <div class="window-title" id="win-education-title">
+          <span class="win-title-icon">🎓</span> Education
+        </div>
+        <div class="window-drag-area"></div>
+      </div>
+      <div class="window-body">
+        <div class="win-content education-content">
+          <div class="edu-header">
+            <div class="edu-badge">MCA</div>
+            <div class="edu-details">
+              <h2>Master of Computer Applications</h2>
+              <p class="edu-inst">Vellore Institute of Technology (VIT)</p>
+              <div class="edu-meta">
+                <span class="edu-tag">2024 – 2026</span>
+                <span class="edu-tag">Chennai Campus</span>
+              </div>
+            </div>
+          </div>
+          <div class="file-list">
+            <div class="file-entry">
+              <span class="file-icon">📄</span>
+              <div class="file-info">
+                <span class="file-name">Advanced_Algorithms.course</span>
+                <span class="file-meta">Data Structures · Complexity Theory</span>
+              </div>
+            </div>
+            <div class="file-entry">
+              <span class="file-icon">📄</span>
+              <div class="file-info">
+                <span class="file-name">Cloud_Computing.course</span>
+                <span class="file-meta">Microservices · Docker · Kubernetes</span>
+              </div>
+            </div>
+            <div class="file-entry">
+              <span class="file-icon">📄</span>
+              <div class="file-info">
+                <span class="file-name">Full_Stack_Dev.course</span>
+                <span class="file-meta">React · Node · Spring Boot</span>
+              </div>
+            </div>
+            <div class="file-entry">
+              <span class="file-icon">📄</span>
+              <div class="file-info">
+                <span class="file-name">Machine_Learning.course</span>
+                <span class="file-meta">TensorFlow · Neural Networks</span>
+              </div>
+            </div>
+          </div>
+          <div class="edu-undergrad">
+            <div class="edu-badge" style="background:var(--accent-green);">BCA</div>
+            <div class="edu-details">
+              <h3>Bachelor of Computer Applications</h3>
+              <p class="edu-inst">Utkal University</p>
+              <div class="edu-meta">
+                <span class="edu-tag">2021 – 2024</span>
+                <span class="edu-tag">CGPA: 8.2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Work Log Window -->
+    <div class="window" id="win-worklog" role="dialog" aria-labelledby="win-worklog-title" aria-modal="false" style="left:200px;top:120px;width:600px;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="win-btn close" aria-label="Close" data-action="close" data-target="win-worklog"></button>
+          <button class="win-btn minimize" aria-label="Minimize" data-action="minimize" data-target="win-worklog"></button>
+          <button class="win-btn maximize" aria-label="Maximize" data-action="maximize" data-target="win-worklog"></button>
+        </div>
+        <div class="window-title" id="win-worklog-title">
+          <span class="win-title-icon">💼</span> Work_Log
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="win-content worklog-content">
+          <div class="terminal-header">
+            <span class="term-prompt">root@sujayos:~$</span>
+            <span class="term-cmd"> cat work_experience.log</span>
+          </div>
+          <div class="worklog-entries">
+            <div class="worklog-entry">
+              <div class="worklog-timeline">
+                <div class="timeline-dot active"></div>
+                <div class="timeline-line"></div>
+              </div>
+              <div class="worklog-card">
+                <div class="worklog-role">Full-Stack Developer Intern</div>
+                <div class="worklog-company">TechSpark Solutions</div>
+                <div class="worklog-period">Jun 2023 – Aug 2023 · 3 months</div>
+                <ul class="worklog-points">
+                  <li>Built REST APIs with Spring Boot serving 10K+ daily requests</li>
+                  <li>Developed React dashboards reducing load time by 40%</li>
+                  <li>Containerized services with Docker & deployed on OCI</li>
+                </ul>
+                <div class="worklog-tags">
+                  <span class="tag">Java</span>
+                  <span class="tag">Spring Boot</span>
+                  <span class="tag">React</span>
+                  <span class="tag">Docker</span>
+                </div>
+              </div>
+            </div>
+            <div class="worklog-entry">
+              <div class="worklog-timeline">
+                <div class="timeline-dot"></div>
+              </div>
+              <div class="worklog-card">
+                <div class="worklog-role">Open Source Contributor</div>
+                <div class="worklog-company">Personal Projects</div>
+                <div class="worklog-period">2023 – Present · Ongoing</div>
+                <ul class="worklog-points">
+                  <li>Architected HabitForge microservices platform (Node.js + TypeScript)</li>
+                  <li>Built SJINVESTS algorithmic trading engine with Upstox API</li>
+                  <li>Deployed monitoring stack: Prometheus + Grafana</li>
+                </ul>
+                <div class="worklog-tags">
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">Microservices</span>
+                  <span class="tag">Redis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects Window -->
+    <div class="window" id="win-projects" role="dialog" aria-labelledby="win-projects-title" aria-modal="false" style="left:280px;top:60px;width:680px;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="win-btn close" aria-label="Close" data-action="close" data-target="win-projects"></button>
+          <button class="win-btn minimize" aria-label="Minimize" data-action="minimize" data-target="win-projects"></button>
+          <button class="win-btn maximize" aria-label="Maximize" data-action="maximize" data-target="win-projects"></button>
+        </div>
+        <div class="window-title" id="win-projects-title">
+          <span class="win-title-icon">🗂</span> Projects
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="win-content projects-content">
+          <div class="projects-grid">
+
+            <div class="project-card featured" id="proj-habitforge" data-window="habitforge">
+              <div class="project-badge">★ FEATURED</div>
+              <div class="project-icon-large">🎮</div>
+              <h3>HabitForge</h3>
+              <p>Full-stack gamified habit tracker with microservices, real-time XP system, clubs, leaderboards, and Prometheus monitoring</p>
+              <div class="project-stack">
+                <span class="tag">Node.js</span><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Redis</span><span class="tag">Docker</span>
+              </div>
+              <div class="project-meta">
+                <span>⚡ Launch App →</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon-large">📈</div>
+              <h3>SJINVESTS</h3>
+              <p>Algorithmic trading platform with Upstox API, decision engine, paper trading, Nifty 500 universe & QuestDB time-series</p>
+              <div class="project-stack">
+                <span class="tag">TypeScript</span><span class="tag">QuestDB</span><span class="tag">Upstox API</span>
+              </div>
+              <a class="project-link" href="https://github.com/sujayarunpanda" target="_blank">View Source ↗</a>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon-large">🚀</div>
+              <h3>SujayOS</h3>
+              <p>This portfolio itself — a macOS-inspired OS simulation with draggable windows, spring physics & pixel art icons</p>
+              <div class="project-stack">
+                <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">Vanilla JS</span><span class="tag">Canvas</span>
+              </div>
+              <a class="project-link" href="https://github.com/sujayarunpanda" target="_blank">Source Code ↗</a>
+            </div>
+
+            <div class="project-card">
+              <div class="project-icon-large">📊</div>
+              <h3>AlgoTrading Engine</h3>
+              <p>Real-time stock market analysis with rule-based decision engine, WebSocket streaming, and automated order management</p>
+              <div class="project-stack">
+                <span class="tag">Node.js</span><span class="tag">WebSocket</span><span class="tag">PostgreSQL</span>
+              </div>
+              <a class="project-link" href="https://github.com/sujayarunpanda" target="_blank">View Source ↗</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Specs Window -->
+    <div class="window" id="win-specs" role="dialog" aria-labelledby="win-specs-title" aria-modal="false" style="left:160px;top:100px;width:520px;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="win-btn close" aria-label="Close" data-action="close" data-target="win-specs"></button>
+          <button class="win-btn minimize" aria-label="Minimize" data-action="minimize" data-target="win-specs"></button>
+          <button class="win-btn maximize" aria-label="Maximize" data-action="maximize" data-target="win-specs"></button>
+        </div>
+        <div class="window-title" id="win-specs-title">
+          <span class="win-title-icon">⚙</span> System_Specs
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="win-content specs-content">
+          <div class="specs-header">
+            <canvas id="specsAvatar" width="80" height="80"></canvas>
+            <div class="specs-about">
+              <div class="specs-name">Sujay Arun Panda</div>
+              <div class="specs-title">Full-Stack Developer · MCA Student</div>
+              <div class="specs-version">SujayOS v1.0 · Build 2026.03</div>
+            </div>
+          </div>
+          <div class="specs-grid">
+            <div class="spec-category">
+              <div class="spec-cat-title">⚡ Languages</div>
+              <div class="spec-items">
+                <div class="spec-bar-item"><span>Java</span><div class="spec-bar"><div class="bar-fill" style="width:90%"></div></div></div>
+                <div class="spec-bar-item"><span>TypeScript</span><div class="spec-bar"><div class="bar-fill" style="width:85%"></div></div></div>
+                <div class="spec-bar-item"><span>JavaScript</span><div class="spec-bar"><div class="bar-fill" style="width:88%"></div></div></div>
+                <div class="spec-bar-item"><span>Python</span><div class="spec-bar"><div class="bar-fill" style="width:72%"></div></div></div>
+                <div class="spec-bar-item"><span>SQL</span><div class="spec-bar"><div class="bar-fill" style="width:80%"></div></div></div>
+              </div>
+            </div>
+            <div class="spec-category">
+              <div class="spec-cat-title">🚀 Frameworks</div>
+              <div class="spec-tags">
+                <span class="spec-tag">Spring Boot</span>
+                <span class="spec-tag">React</span>
+                <span class="spec-tag">Node.js</span>
+                <span class="spec-tag">Express</span>
+                <span class="spec-tag">Vite</span>
+                <span class="spec-tag">Tailwind</span>
+              </div>
+            </div>
+            <div class="spec-category">
+              <div class="spec-cat-title">☁ Cloud &amp; DevOps</div>
+              <div class="spec-tags">
+                <span class="spec-tag infra">Docker</span>
+                <span class="spec-tag infra">OCI</span>
+                <span class="spec-tag infra">Kubernetes</span>
+                <span class="spec-tag infra">Prometheus</span>
+                <span class="spec-tag infra">Grafana</span>
+                <span class="spec-tag infra">Redis</span>
+              </div>
+            </div>
+            <div class="spec-category">
+              <div class="spec-cat-title">🗄 Databases</div>
+              <div class="spec-tags">
+                <span class="spec-tag db">PostgreSQL</span>
+                <span class="spec-tag db">MongoDB</span>
+                <span class="spec-tag db">QuestDB</span>
+                <span class="spec-tag db">MySQL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HabitForge Window -->
+    <div class="window window-game" id="win-habitforge" role="dialog" aria-labelledby="win-habitforge-title" aria-modal="false" style="left:340px;top:90px;width:620px;">
+      <div class="window-titlebar game-titlebar">
+        <div class="window-controls">
+          <button class="win-btn close" aria-label="Close" data-action="close" data-target="win-habitforge"></button>
+          <button class="win-btn minimize" aria-label="Minimize" data-action="minimize" data-target="win-habitforge"></button>
+          <button class="win-btn maximize" aria-label="Maximize" data-action="maximize" data-target="win-habitforge"></button>
+        </div>
+        <div class="window-title" id="win-habitforge-title">
+          <span class="win-title-icon">🎮</span> HabitForge.app
+        </div>
+      </div>
+      <div class="window-body game-body">
+        <div class="game-screen">
+          <!-- Game Header -->
+          <div class="game-header">
+            <div class="game-logo-text">HABIT<span>FORGE</span></div>
+            <div class="game-stats-bar">
+              <div class="stat-block">
+                <div class="stat-label">LVL</div>
+                <div class="stat-value" id="g-level">12</div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-label">XP</div>
+                <div class="stat-value" id="g-xp">2840</div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-label">🔥</div>
+                <div class="stat-value" id="g-streak">7</div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-label">GOLD</div>
+                <div class="stat-value" id="g-gold">450</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- XP Bar -->
+          <div class="xp-bar-container">
+            <div class="xp-bar-label">XP TO NEXT LEVEL</div>
+            <div class="xp-bar-outer">
+              <div class="xp-bar-inner" id="xpBar" style="width:72%">
+                <div class="xp-bar-shimmer"></div>
+              </div>
+            </div>
+            <div class="xp-bar-label">2840 / 3500</div>
+          </div>
+
+          <!-- Habit Quests -->
+          <div class="quest-list">
+            <div class="quest-header">⚔ DAILY QUESTS</div>
+            <div class="quest-item completed">
+              <div class="quest-check">✔</div>
+              <div class="quest-info">
+                <div class="quest-name">Morning Code Sprint</div>
+                <div class="quest-reward">+120 XP · +15 🔥</div>
+              </div>
+              <div class="quest-badge">DONE</div>
+            </div>
+            <div class="quest-item">
+              <div class="quest-check"></div>
+              <div class="quest-info">
+                <div class="quest-name">Read Technical Paper</div>
+                <div class="quest-reward">+80 XP · +10 🔥</div>
+              </div>
+              <div class="quest-btn" id="claim-quest">CLAIM</div>
+            </div>
+            <div class="quest-item">
+              <div class="quest-check"></div>
+              <div class="quest-info">
+                <div class="quest-name">Algorithm Challenge</div>
+                <div class="quest-reward">+200 XP · +20 🔥</div>
+              </div>
+              <div class="quest-btn">START</div>
+            </div>
+          </div>
+
+          <!-- Leaderboard snippet -->
+          <div class="game-leaderboard">
+            <div class="lb-header">🏆 CLUB LEADERBOARD</div>
+            <div class="lb-row rank-1">
+              <span class="lb-rank">👑 1</span>
+              <span class="lb-name">SujayArun</span>
+              <span class="lb-score">9,240 pts</span>
+            </div>
+            <div class="lb-row">
+              <span class="lb-rank"> #2</span>
+              <span class="lb-name">CodeNinja_V</span>
+              <span class="lb-score">7,810 pts</span>
+            </div>
+            <div class="lb-row">
+              <span class="lb-rank"> #3</span>
+              <span class="lb-name">DevQueen99</span>
+              <span class="lb-score">6,550 pts</span>
+            </div>
+          </div>
+
+          <!-- Tech Stack display -->
+          <div class="game-tech">
+            <span class="tech-chip">Node.js</span>
+            <span class="tech-chip">TypeScript</span>
+            <span class="tech-chip">React</span>
+            <span class="tech-chip">Microservices</span>
+            <span class="tech-chip">Redis</span>
+            <span class="tech-chip">Docker</span>
+            <span class="tech-chip">Prometheus</span>
+          </div>
+
+          <!-- GitHub link -->
+          <div class="game-footer">
+            <a href="https://github.com/sujayarunpanda" target="_blank" class="game-btn">VIEW SOURCE CODE ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════ DOCK ═══════════════════════ -->
+  <nav class="dock" role="navigation" aria-label="Application Dock">
+    <div class="dock-inner">
+      <div class="dock-item" data-window="education" data-label="Education" tabindex="0" role="button">
+        <canvas class="dock-canvas" data-type="java" width="48" height="48"></canvas>
+        <div class="dock-tooltip">Java</div>
+      </div>
+      <div class="dock-item" data-window="projects" data-label="TypeScript" tabindex="0" role="button">
+        <canvas class="dock-canvas" data-type="typescript" width="48" height="48"></canvas>
+        <div class="dock-tooltip">TypeScript</div>
+      </div>
+      <div class="dock-item" data-window="specs" data-label="OCI" tabindex="0" role="button">
+        <canvas class="dock-canvas" data-type="oci" width="48" height="48"></canvas>
+        <div class="dock-tooltip">Oracle Cloud</div>
+      </div>
+      <div class="dock-item" data-window="worklog" data-label="Docker" tabindex="0" role="button">
+        <canvas class="dock-canvas" data-type="docker" width="48" height="48"></canvas>
+        <div class="dock-tooltip">Docker</div>
+      </div>
+      <div class="dock-separator"></div>
+      <div class="dock-item" data-window="habitforge" data-label="HabitForge" tabindex="0" role="button">
+        <canvas class="dock-canvas" data-type="habitforge-dock" width="48" height="48"></canvas>
+        <div class="dock-dot"></div>
+        <div class="dock-tooltip">HabitForge</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Shutdown Dialog -->
+  <div class="modal-overlay" id="shutdownOverlay">
+    <div class="modal-box">
+      <div class="modal-icon">⏻</div>
+      <div class="modal-title">Shut Down SujayOS?</div>
+      <div class="modal-body">Are you sure you want to shut down SujayOS v1.0?<br/>Unsaved inspiration will be saved automatically.</div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="cancelShutdown">Cancel</button>
+        <button class="modal-btn confirm" id="confirmShutdown">Shut Down</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boot Screen -->
+  <div class="boot-screen" id="bootScreen">
+    <div class="boot-content">
+      <canvas id="bootLogo" width="120" height="120"></canvas>
+      <div class="boot-text">SujayOS</div>
+      <div class="boot-version">v1.0 · Full-Stack Developer Edition</div>
+      <div class="boot-spinner">
+        <div class="spinner-dot"></div>
+        <div class="spinner-dot"></div>
+        <div class="spinner-dot"></div>
+        <div class="spinner-dot"></div>
+        <div class="spinner-dot"></div>
+      </div>
+      <div class="boot-progress-bar">
+        <div class="boot-progress-fill" id="bootProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
