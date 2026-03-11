@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { drawJava, drawTypeScript, drawOCI, drawDocker, drawHabitForgeDock } from '../utils/pixelArt';
-import { WindowId } from '../hooks/useWindowManager';
+import type { WindowId } from '../hooks/useWindowManager';
 
 type DockIconType = 'java' | 'typescript' | 'oci' | 'docker' | 'habitforge-dock';
 
@@ -12,7 +12,7 @@ const DOCK_ITEMS: { type: DockIconType; tooltip: string; window: WindowId }[] = 
 ];
 const HABITFORGE_DOCK = { type: 'habitforge-dock' as DockIconType, tooltip: 'HabitForge', window: 'habitforge' as WindowId };
 
-function DockIcon({ type, onDraw }: { type: DockIconType; onDraw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void }) {
+function DockIcon({ onDraw }: { type: DockIconType; onDraw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void }) {
     const ref = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
         if (!ref.current) return;

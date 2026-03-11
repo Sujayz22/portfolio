@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { drawDesktopFolder, drawHabitForge } from '../utils/pixelArt';
-import { WindowId } from '../hooks/useWindowManager';
+import type { WindowId } from '../hooks/useWindowManager';
 
 interface DesktopIconProps {
     id: WindowId;
