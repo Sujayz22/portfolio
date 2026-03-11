@@ -23,7 +23,7 @@ const SEARCH_INDEX: SearchResult[] = [
   // Projects
   { icon: '🎮', title: 'HabitForge', subtitle: 'Gamified habit tracker · Full-stack microservices', category: 'project', windowId: 'habitforge', keywords: ['habitforge', 'habit', 'microservices', 'gamified', 'xp', 'leaderboard'] },
   { icon: '📈', title: 'SJINVESTS', subtitle: 'Algo trading · Upstox API · QuestDB', category: 'project', windowId: 'projects', keywords: ['sjinvests', 'trading', 'algo', 'upstox', 'questdb', 'finance'] },
-  { icon: '🚀', title: 'SujayOS', subtitle: 'This portfolio · macOS simulator', category: 'project', windowId: 'projects', keywords: ['sujayos', 'portfolio', 'macos', 'simulator', 'react'] },
+  { icon: '🚀', title: 'DevOS', subtitle: 'This portfolio · macOS simulator', category: 'project', windowId: 'projects', keywords: ['devos', 'portfolio', 'macos', 'simulator', 'react'] },
   { icon: '📊', title: 'AlgoTrading Engine', subtitle: 'Real-time · WebSocket · Decision Engine', category: 'project', windowId: 'projects', keywords: ['algotrading', 'algo', 'websocket', 'realtime', 'engine'] },
   // Experience
   { icon: '💼', title: 'TechSpark Solutions', subtitle: 'Full-Stack Intern · Java · Spring Boot · OCI', category: 'experience', windowId: 'worklog', keywords: ['techspark', 'intern', 'java', 'spring', 'oci', 'docker', 'rest api'] },
@@ -168,7 +168,9 @@ export const SpotlightSearch: React.FC<SpotlightSearchProps> = ({ isOpen, onClos
         {/* Footer */}
         <div className="flex items-center justify-between px-5 py-3 border-t border-white/8">
           <span className="text-[10px] text-white/25">↑↓ navigate · ↵ open</span>
-          <span className="text-[10px] text-white/25" style={{ color: 'var(--accent)', opacity: 0.6 }}>⌘K SujayOS Spotlight</span>
+          <span className="text-[10px] text-white/25" style={{ color: 'var(--accent)', opacity: 0.6 }}>
+            ⌘K <span className="text-white/40">Dev</span><span style={{ color: '#8da2ba' }}>OS</span> Spotlight
+          </span>
         </div>
       </div>
     </div>

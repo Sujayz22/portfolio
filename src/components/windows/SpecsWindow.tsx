@@ -48,7 +48,7 @@ export const SpecsWindow: React.FC = () => {
                     </div>
                     <div className="flex gap-1.5">
                         <span className="glass-tag-accent text-[9px]">⚡ Available for Opportunities</span>
-                        <span className="glass-tag text-[9px]">SujayOS v2.0</span>
+                        <span className="glass-tag text-[9px]">DevOS v2.0</span>
                     </div>
                 </div>
             </div>

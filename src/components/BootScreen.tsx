@@ -5,7 +5,7 @@ interface BootScreenProps {
 }
 
 const MESSAGES = [
-    'Initializing SujayOS…',
+    'Initializing DevOS…',
     'Loading Liquid Glass engine…',
     'Mounting file system…',
     'Starting window compositor…',
@@ -56,31 +56,29 @@ export const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
             </div>
 
             <div className="relative flex flex-col items-center gap-7">
-                {/* Logo mark — glowing S */}
+                {/* Logo mark */}
                 <div className="relative">
                     <div className="absolute inset-0 rounded-2xl blur-xl opacity-60"
-                        style={{ background: 'var(--accent, #a8e634)', transform: 'scale(1.3)' }} />
-                    <div
-                        className="relative w-20 h-20 rounded-2xl flex items-center justify-center text-[36px] font-bold"
+                        style={{ background: '#606c7c', transform: 'scale(1.3)' }} />
+                    <img
+                        src="/logo.png"
+                        alt="DevOS Logo"
+                        className="relative w-20 h-20 rounded-2xl object-contain drop-shadow-xl"
                         style={{
                             background: 'rgba(255,255,255,0.08)',
                             border: '1px solid rgba(255,255,255,0.20)',
                             backdropFilter: 'blur(20px)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
-                            fontFamily: 'Inter, -apple-system, sans-serif',
-                            color: 'var(--accent, #a8e634)',
-                            letterSpacing: '-0.04em',
+                            padding: '8px',
                         }}
-                    >
-                        S
-                    </div>
+                    />
                 </div>
 
                 {/* Title */}
                 <div className="flex flex-col items-center gap-1.5">
-                    <div className="text-[28px] font-semibold text-white tracking-tight"
+                    <div className="text-[28px] font-semibold tracking-tight"
                         style={{ fontFamily: 'Inter, -apple-system, sans-serif', letterSpacing: '-0.04em' }}>
-                        SujayOS
+                        <span className="text-white">Dev</span>
+                        <span style={{ color: '#8da2ba' }}>OS</span>
                     </div>
                     <div className="text-[12px] font-medium text-white/40"
                         style={{ fontFamily: 'Inter, -apple-system, sans-serif', letterSpacing: '-0.01em' }}>

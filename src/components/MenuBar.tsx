@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { drawLogoS } from '../utils/pixelArt';
+import React, { useEffect, useState } from 'react';
 import type { WindowId } from '../hooks/useWindowManager';
 
 const WINDOW_IDS: { id: WindowId; label: string; icon: string }[] = [
@@ -18,16 +17,8 @@ interface MenuBarProps {
 }
 
 export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown, onOpenSpotlight, onOpenSettings }) => {
-    const logoRef = useRef<HTMLCanvasElement>(null);
     const [clock, setClock] = useState('');
     const [openMenu, setOpenMenu] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (logoRef.current) {
-            const ctx = logoRef.current.getContext('2d')!;
-            drawLogoS(ctx, 18, 18, 'rgba(255,255,255,0.92)');
-        }
-    }, []);
 
     useEffect(() => {
         const tick = () => {
@@ -62,7 +53,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown, onOp
         >
             {/* Left side */}
             <nav className="flex items-center h-full gap-0.5">
-                {/* Apple/Sujay Logo */}
+                {/* Apple/DevOS Logo */}
                 <div
                     className={`${itemBase} px-2.5 ${openMenu === 'apple' ? itemActive : ''}`}
                     onClick={e => toggle('apple', e)}
@@ -70,13 +61,15 @@ export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown, onOp
                     aria-haspopup="true"
                     tabIndex={0}
                 >
-                    <canvas ref={logoRef} width={18} height={18} />
+                    <img src="/logo.png" alt="Logo" className="w-[18px] h-[18px] object-contain drop-shadow-md brightness-110" />
                     {openMenu === 'apple' && (
                         <div
                             className="glass-dropdown absolute top-[calc(100%+6px)] left-0 min-w-[230px] z-50 overflow-hidden py-1.5"
                             onClick={e => e.stopPropagation()}
                         >
-                            <div className="px-3.5 py-1 text-[10px] font-semibold text-white/30 tracking-widest uppercase">SujayOS v2.0</div>
+                            <div className="px-3.5 py-1 text-[10px] font-semibold tracking-widest uppercase">
+                                <span className="text-white/40">Dev</span><span style={{ color: '#8da2ba' }}>OS</span> <span className="text-white/20">v2.0</span>
+                            </div>
                             <div className="h-px mx-3 bg-white/10 my-1" />
                             <a
                                 href="mailto:sujayjsx@gmail.com"

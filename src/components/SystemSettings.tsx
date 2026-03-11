@@ -30,7 +30,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ onClose }) => {
             <span className="text-xl">⚙</span>
             <div>
               <div className="text-[14px] font-semibold text-white leading-none">System Settings</div>
-              <div className="text-[10px] text-white/40 mt-0.5">SujayOS Appearance</div>
+              <div className="text-[10px] text-white/40 mt-0.5">DevOS Appearance</div>
             </div>
           </div>
           <button
@@ -114,7 +114,7 @@ export const SystemSettings: React.FC<SystemSettingsProps> = ({ onClose }) => {
 
           {/* Build info */}
           <div className="pt-1 border-t border-white/8 flex items-center justify-between">
-            <span className="text-[9px] text-white/20 font-mono">SujayOS v2.0 · Build 2026.03</span>
+            <span className="text-[9px] text-white/20 font-mono"><span className="text-white/40">Dev</span><span style={{ color: '#8da2ba' }}>OS</span> v2.0 · Build 2026.03</span>
             <span className="text-[9px] text-white/20">Tahoe Edition</span>
           </div>
         </div>

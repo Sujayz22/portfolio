@@ -270,11 +270,11 @@ function AppInner() {
             <div className="text-5xl mb-4">⏻</div>
             <div className="text-[16px] font-semibold text-white mb-2"
               style={{ fontFamily: 'Inter, -apple-system, sans-serif', letterSpacing: '-0.02em' }}>
-              Shut Down SujayOS?
+              Shut Down DevOS?
             </div>
             <div className="text-[12px] text-white/50 leading-relaxed mb-6"
               style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}>
-              Are you sure you want to shut down SujayOS v2.0?<br />
+              Are you sure you want to shut down DevOS v2.0?<br />
               Unsaved inspiration will be saved automatically.
             </div>
             <div className="flex gap-3 justify-center">

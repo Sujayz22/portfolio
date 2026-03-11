@@ -33,7 +33,7 @@ const PROJECTS: Project[] = [
         glowColor: 'rgba(56,189,248,0.30)',
     },
     {
-        icon: '🚀', name: 'SujayOS',
+        icon: '🚀', name: 'DevOS',
         desc: 'This portfolio — a macOS Tahoe UI simulation with Liquid Glass, spring physics & Spotlight search',
         tags: ['React', 'TypeScript', 'Tailwind', 'Canvas'],
         link: 'https://github.com/Sujayz22/sujayos',
