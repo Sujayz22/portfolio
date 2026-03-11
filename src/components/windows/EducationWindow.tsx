@@ -23,8 +23,8 @@ export const EducationWindow: React.FC = () => (
                 <h2 className="text-[13px] font-mono font-bold text-white mb-1">Master of Computer Applications</h2>
                 <p className="text-[11px] text-[#8cb8da] mb-2">Vellore Institute of Technology (VIT)</p>
                 <div className="flex gap-2 flex-wrap">
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e0f8]">2024 – 2026</span>
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e0f8]">Chennai Campus</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e0f8]">2025 – 2027</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e0f8]">Vellore Campus</span>
                 </div>
             </div>
         </div>
@@ -53,10 +53,10 @@ export const EducationWindow: React.FC = () => (
             <div className="font-pixel text-[10px] bg-[#27ae60] text-white px-2.5 py-1.5 rounded flex-shrink-0 tracking-widest">BCA</div>
             <div>
                 <h3 className="text-[12px] font-mono font-bold text-white mb-1">Bachelor of Computer Applications</h3>
-                <p className="text-[11px] text-[#88c8a0] mb-2">Utkal University</p>
+                <p className="text-[11px] text-[#88c8a0] mb-2">Bengaluru North University</p>
                 <div className="flex gap-2 flex-wrap">
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e8d8]">2021 – 2024</span>
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e8d8]">CGPA: 8.2</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e8d8]">2020 – 2024</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-[#c8e8d8]">CGPA: 8.41</span>
                 </div>
             </div>
         </div>
