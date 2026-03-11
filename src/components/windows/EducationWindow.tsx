@@ -1,18 +1,5 @@
 import React from 'react';
 
-const Tag: React.FC<{ children: React.ReactNode; color?: 'blue' | 'green' | 'orange' }> = ({ children, color = 'blue' }) => {
-    const colors = {
-        blue: 'bg-[#e8f0fe] border-[#c5d8f8] text-[#2a58c5]',
-        green: 'bg-[#e8f8f0] border-[#b8e8c8] text-[#1a7a40]',
-        orange: 'bg-[#fef8e8] border-[#f8e0b8] text-[#8a4a10]',
-    };
-    return (
-        <span className={`text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded-full border ${colors[color]}`}>
-            {children}
-        </span>
-    );
-};
-
 export const EducationWindow: React.FC = () => (
     <div className="p-4 flex flex-col gap-4">
         {/* MCA */}
