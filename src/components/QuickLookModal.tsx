@@ -10,7 +10,7 @@ const PRINT_LINES = [
     'github.com/Sujayz22',
     '─────────────────────────────',
     'PROJECTS',
-    'HabitForge · SJINVESTS · SujayOS',
+    'HabitForge · SJINVESTS · DevOS',
     '─────────────────────────────',
     'SKILLS',
     'Java · TypeScript · Node.js',

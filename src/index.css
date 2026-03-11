@@ -1,19 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS Custom Properties — Liquid Glass Design System ── */
+:root {
+  --accent: #a8e634;
+  --accent-glow: rgba(168, 230, 52, 0.45);
+  --accent-rgb: 168, 230, 52;
+
+  /* Glass material */
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(255, 255, 255, 0.32);
+  --glass-border-light: rgba(255, 255, 255, 0.18);
+  --glass-blur: blur(48px) saturate(200%) brightness(105%);
+  --glass-blur-light: blur(24px) saturate(180%);
+  --glass-shadow: 0 16px 48px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --glass-radius: 24px;
+
+  /* Window content */
+  --content-bg: rgba(255, 255, 255, 0.72);
+  --content-text: #1a1a1e;
+  --content-text-secondary: #4a4a52;
+  --content-border: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Tinted mode — monochrome accent color-wash ── */
+.tinted-mode {
+  --glass-bg: rgba(var(--accent-rgb), 0.10);
+  --glass-bg-heavy: rgba(var(--accent-rgb), 0.16);
+  --glass-border: rgba(var(--accent-rgb), 0.35);
+  --content-bg: rgba(var(--accent-rgb), 0.08);
+}
+
+.tinted-mode .desktop-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--accent-rgb), 0.08);
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ── Global reset ── */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
+html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -22,56 +58,257 @@ body,
 body {
   user-select: none;
   -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* ── CRT scanlines ── */
-.scanlines {
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px,
-      rgba(0, 0, 0, 0.04) 2px, rgba(0, 0, 0, 0.04) 4px);
+/* ── Liquid Glass Material Utility ── */
+.liquid-glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
-/* ── Pixel-art desktop tile ── */
+.liquid-glass-light {
+  background: var(--glass-bg-heavy);
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  border: 1px solid var(--glass-border-light);
+}
+
+/* ── Desktop Wallpaper — Tahoe Mesh Gradient ── */
 .desktop-bg {
-  background-color: #3d6b4e;
+  background-color: #060f22;
   background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(0, 0, 0, 0.08) 15px, rgba(0, 0, 0, 0.08) 16px),
-    repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(0, 0, 0, 0.08) 15px, rgba(0, 0, 0, 0.08) 16px),
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 1px, transparent 1px, transparent 8px);
+    radial-gradient(ellipse 70% 55% at 18% 28%, rgba(55, 120, 240, 0.70) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 70% at 82% 18%, rgba(140, 70, 230, 0.55) 0%, transparent 50%),
+    radial-gradient(ellipse 65% 45% at 50% 82%, rgba(25, 160, 230, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 35% at 5% 88%, rgba(60, 220, 200, 0.30) 0%, transparent 50%),
+    radial-gradient(ellipse 45% 55% at 92% 68%, rgba(230, 90, 140, 0.28) 0%, transparent 48%),
+    linear-gradient(165deg, #0c1c44 0%, #101835 30%, #0a2240 60%, #060f22 100%);
+  overflow: hidden;
 }
 
 .desktop-bg::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-  background-size: 16px 16px;
+  background: 
+    radial-gradient(circle at 30% 40%, rgba(168, 230, 52, 0.04) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Cellipse cx='200' cy='220' rx='300' ry='120' fill='rgba(10,40,100,0.5)'/%3E%3Cellipse cx='120' cy='180' rx='180' ry='80' fill='rgba(15,60,130,0.4)'/%3E%3C/svg%3E") center bottom / 100% auto no-repeat;
   pointer-events: none;
+  z-index: 0;
 }
 
-/* ── Window titlebar gradient ── */
-.titlebar-grad {
-  background: linear-gradient(180deg, #e4e4e0 0%, #d0d0ca 50%, #c8c8c2 100%);
+/* ── Invisible / Floating Menu Bar ── */
+.menubar-invisible {
+  background: rgba(12, 16, 32, 0.60) !important;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 1px 16px rgba(0, 0, 0, 0.30) !important; /* The invisible menu bar for Liquid Glass aesthetic */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 999;
+  color: white;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
-.titlebar-grad-active {
-  background: linear-gradient(180deg, #e0e0dc 0%, #c8c8c0 50%, #c0c0b8 100%);
+.menubar-item-text {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-.menubar-grad {
-  background: linear-gradient(180deg, #e8e8e2 0%, #d8d8d0 100%);
+.menubar-item-text:hover {
+  color: #ffffff;
+  text-shadow:
+    0 1px 8px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(0, 0, 0, 0.7);
 }
 
-/* ── Game glow text ── */
-.game-glow {
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.7), 0 0 20px rgba(0, 255, 136, 0.4);
+/* Dropdown menus become glass panels */
+.glass-dropdown {
+  background: rgba(22, 22, 28, 0.85);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-.game-glow-orange {
-  text-shadow: 0 0 10px rgba(255, 107, 53, 0.7), 0 0 20px rgba(255, 107, 53, 0.4);
+.glass-dropdown-item {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 13px;
+  font-weight: 400;
+  border-radius: 8px;
+  padding: 6px 12px;
+  transition: background 0.12s ease;
 }
 
-.game-gold-glow {
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+.glass-dropdown-item:hover {
+  background: rgba(var(--accent-rgb), 0.22);
+  color: #ffffff;
+}
+
+/* ── Window Glass Material ── */
+.window-glass {
+  background: rgba(20, 20, 30, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: var(--glass-radius);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.5),
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.window-glass-content {
+  background: var(--content-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.window-titlebar {
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: calc(var(--glass-radius) - 1px) calc(var(--glass-radius) - 1px) 0 0;
+}
+
+.tinted-mode .window-glass {
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.28);
+}
+
+/* ── Dock Glass ── */
+.dock-glass {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 22px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.tinted-mode .dock-glass {
+  background: rgba(var(--accent-rgb), 0.12);
+  border-color: rgba(var(--accent-rgb), 0.38);
+  box-shadow:
+    0 8px 32px rgba(var(--accent-rgb), 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* ── Dock magnification ── */
+.mac-dock-container {
+  transition: padding 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.mac-dock-container:has(.mac-dock-item:hover) {
+  padding: 8px 32px;
+}
+
+.mac-dock-item {
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: bottom center;
+}
+
+/* Base icon body sizing to avoid scaling squish */
+.mac-dock-icon-body {
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The hovered item grows the most and pushes siblings away */
+.mac-dock-item:hover {
+  transform: scale(1.4) translateY(-10%);
+  margin: 0 16px;
+}
+
+/* Sibling directly next to hovered */
+.mac-dock-item:has(+ .mac-dock-item:hover),
+.mac-dock-item:hover + .mac-dock-item {
+  transform: scale(1.2) translateY(-6%);
+  margin: 0 8px;
+}
+
+/* Sibling two spots away */
+.mac-dock-item:has(+ .mac-dock-item + .mac-dock-item:hover),
+.mac-dock-item:hover + .mac-dock-item + .mac-dock-item {
+  transform: scale(1.1) translateY(-3%);
+  margin: 0 4px;
+}
+
+.mac-dock-item:hover .dock-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-8px);
+}
+
+/* ── Card glass ── */
+.card-glass {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.card-glass-light {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+}
+
+/* ── Spotlight ── */
+.spotlight-overlay {
+  background: rgba(0, 0, 0, 0.50);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.spotlight-input-glass {
+  background: rgba(30, 30, 40, 0.80);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.spotlight-result-item:hover {
+  background: rgba(var(--accent-rgb), 0.18);
+  border-radius: 10px;
+}
+
+/* ── System Settings Panel ── */
+.settings-glass {
+  background: rgba(18, 18, 26, 0.88);
+  backdrop-filter: blur(48px) saturate(200%);
+  -webkit-backdrop-filter: blur(48px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 /* ── Pixel image rendering ── */
@@ -81,12 +318,12 @@ canvas {
 
 /* ── Custom scrollbar ── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b8b8ae;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -95,22 +332,7 @@ canvas {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #b8b8ae transparent;
-}
-
-/* ── Dock magnification ── */
-.dock-item {
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform-origin: bottom center;
-}
-
-.dock-item:hover {
-  transform: scale(1.45) translateY(-10px);
-}
-
-.dock-item:hover .dock-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-10px);
+  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
 }
 
 /* ── Bar fill animation ── */
@@ -119,193 +341,196 @@ canvas {
 }
 
 @keyframes bar-grow {
-  from {
-    width: 0% !important;
-  }
+  from { width: 0% !important; }
 }
 
 /* ── Boot spinner ── */
 .spinner-dot {
   animation: spinner-pulse 1.2s ease-in-out infinite;
 }
-
-.spinner-dot:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.spinner-dot:nth-child(2) {
-  animation-delay: 0.12s;
-}
-
-.spinner-dot:nth-child(3) {
-  animation-delay: 0.24s;
-}
-
-.spinner-dot:nth-child(4) {
-  animation-delay: 0.36s;
-}
-
-.spinner-dot:nth-child(5) {
-  animation-delay: 0.48s;
-}
+.spinner-dot:nth-child(1) { animation-delay: 0s; }
+.spinner-dot:nth-child(2) { animation-delay: 0.12s; }
+.spinner-dot:nth-child(3) { animation-delay: 0.24s; }
+.spinner-dot:nth-child(4) { animation-delay: 0.36s; }
+.spinner-dot:nth-child(5) { animation-delay: 0.48s; }
 
 @keyframes spinner-pulse {
-
-  0%,
-  80%,
-  100% {
-    background: #b0b0a8;
-    transform: scale(0.85);
-  }
-
-  40% {
-    background: #1a1a18;
-    transform: scale(1.1);
-  }
+  0%, 80%, 100% { background: rgba(255,255,255,0.3); transform: scale(0.85); }
+  40%            { background: rgba(255,255,255,0.95); transform: scale(1.1); }
 }
 
 /* ── Icon bounce ── */
 .icon-bouncing {
-  animation: icon-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: icon-bounce 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes icon-bounce {
-  0% {
-    transform: scale(1);
-  }
-
-  40% {
-    transform: scale(0.88);
-  }
-
-  70% {
-    transform: scale(1.12);
-  }
-
-  100% {
-    transform: scale(1);
-  }
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.88); }
+  70%  { transform: scale(1.14); }
+  100% { transform: scale(1); }
 }
 
-/* ── Xp shimmer ── */
-.xp-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(200%);
-  }
-}
-
-/* ── Window open/close (macOS genie effect) ── */
+/* ── Window spring open ── */
 .window-open {
-  animation: mac-open 0.42s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+  animation: liquid-open 0.50s cubic-bezier(0.22, 1.5, 0.36, 1) forwards;
 }
 
 .window-close {
-  animation: mac-close 0.26s cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: liquid-close 0.28s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
 .window-minimize {
   animation: mac-genie-out 0.48s cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
 
-/* Fade + slight scale-up: feels like macOS window birth */
-@keyframes mac-open {
+@keyframes liquid-open {
   0% {
     opacity: 0;
-    transform: scale(0.82) translateY(14px);
-    clip-path: inset(8% 6% 8% 6% round 10px);
+    transform: scale(0.78) translateY(18px);
+    filter: blur(4px);
   }
-
   55% {
     opacity: 1;
-    transform: scale(1.02) translateY(-3px);
-    clip-path: inset(0% 0% 0% 0% round 8px);
+    transform: scale(1.025) translateY(-4px);
+    filter: blur(0);
   }
-
   78% {
-    transform: scale(0.99) translateY(1px);
+    transform: scale(0.995) translateY(2px);
   }
-
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
-    clip-path: inset(0% 0% 0% 0% round 8px);
+    filter: blur(0);
   }
 }
 
-/* Close: shrinks and fades out toward center */
-@keyframes mac-close {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-    clip-path: inset(0% 0% 0% 0% round 8px);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0.72);
-    clip-path: inset(12% 12% 12% 12% round 10px);
-  }
+@keyframes liquid-close {
+  0%   { opacity: 1; transform: scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: scale(0.70); filter: blur(8px); }
 }
 
-/*
-  Genie: the real macOS "suck into dock" effect.
-  We approximate it with clip-path: the top stays wide,
-  the bottom pinches to a narrow slit, while the whole
-  window translates down toward where the dock lives.
-*/
 @keyframes mac-genie-out {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scaleX(1);
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    transform-origin: bottom center;
-  }
+  0%   { opacity: 1; transform: translateY(0) scaleX(1); clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); transform-origin: bottom center; }
+  25%  { opacity: 1; transform: translateY(8%) scaleX(0.96); clip-path: polygon(2% 0%, 98% 0%, 96% 100%, 4% 100%); }
+  55%  { opacity: 0.85; transform: translateY(32%) scaleX(0.7) scaleY(0.65); clip-path: polygon(8% 0%, 92% 0%, 60% 100%, 40% 100%); }
+  80%  { opacity: 0.4; transform: translateY(62%) scaleX(0.3) scaleY(0.28); clip-path: polygon(30% 0%, 70% 0%, 54% 100%, 46% 100%); }
+  100% { opacity: 0; transform: translateY(90%) scaleX(0.05) scaleY(0); clip-path: polygon(47% 0%, 53% 0%, 51% 100%, 49% 100%); }
+}
 
-  25% {
-    opacity: 1;
-    transform: translateY(8%) scaleX(0.96);
-    clip-path: polygon(2% 0%, 98% 0%, 96% 100%, 4% 100%);
-  }
+/* ── Spotlight entrance ── */
+@keyframes spotlight-in {
+  0%   { opacity: 0; transform: scale(0.92) translateY(-12px); filter: blur(6px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
 
-  55% {
-    opacity: 0.85;
-    transform: translateY(32%) scaleX(0.7) scaleY(0.65);
-    clip-path: polygon(8% 0%, 92% 0%, 60% 100%, 40% 100%);
-  }
+.spotlight-in {
+  animation: spotlight-in 0.28s cubic-bezier(0.22, 1.2, 0.36, 1) forwards;
+}
 
-  80% {
-    opacity: 0.4;
-    transform: translateY(62%) scaleX(0.3) scaleY(0.28);
-    clip-path: polygon(30% 0%, 70% 0%, 54% 100%, 46% 100%);
-  }
+/* ── Settings panel ── */
+@keyframes settings-in {
+  0%   { opacity: 0; transform: scale(0.90) translateY(12px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
 
-  100% {
-    opacity: 0;
-    transform: translateY(90%) scaleX(0.05) scaleY(0);
-    clip-path: polygon(47% 0%, 53% 0%, 51% 100%, 49% 100%);
-  }
+.settings-in {
+  animation: settings-in 0.32s cubic-bezier(0.22, 1.2, 0.36, 1) forwards;
 }
 
 /* ── Modal fade ── */
 @keyframes modal-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
-
 .modal-in {
   animation: modal-in 0.2s ease;
+}
+
+/* ── Accent glow pulse on selected ── */
+@keyframes accent-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%       { box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0); }
+}
+
+.accent-pulse {
+  animation: accent-pulse 2s ease-in-out infinite;
+}
+
+/* ── Game glow (HabitForge window) ── */
+.game-glow {
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.7), 0 0 20px rgba(0, 255, 136, 0.4);
+}
+.game-glow-orange {
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.7), 0 0 20px rgba(255, 107, 53, 0.4);
+}
+.game-gold-glow {
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+/* ── Desktop Widgets ── */
+.widget-glass {
+  background: rgba(18, 22, 38, 0.72);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease;
+}
+
+.widget-glass:hover {
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.tinted-mode .widget-glass {
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.18);
+}
+
+/* ── Frosted tag pills ── */
+.glass-tag {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  color: rgba(255, 255, 255, 0.88);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  backdrop-filter: blur(8px);
+}
+
+.glass-tag-accent {
+  background: rgba(var(--accent-rgb), 0.18);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+}
+
+/* ── Folder icons ── */
+.tahoe-folder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tahoe-folder:hover {
+  transform: scale(1.08);
+}
+
+/* ── Accent-colored skill bars ── */
+.skill-bar-fill {
+  background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.6));
+  box-shadow: 0 0 8px var(--accent-glow);
 }
