@@ -20,36 +20,25 @@ export const Window: React.FC<WindowProps> = ({
     const dragRef = useRef<{ startX: number; startY: number; origLeft: number; origTop: number } | null>(null);
     const [animState, setAnimState] = useState<'in' | 'out' | 'min' | 'idle'>('in');
 
-    // Animate in on open
     useEffect(() => {
         if (win.isOpen) {
             setAnimState('in');
-            const t = setTimeout(() => setAnimState('idle'), 430);
+            const t = setTimeout(() => setAnimState('idle'), 520);
             return () => clearTimeout(t);
         }
     }, [win.isOpen]);
 
-    const handleClose = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setAnimState('out');
-        setTimeout(() => onClose(win.id), 260);
-    };
-
-    const handleMinimize = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setAnimState('min');
-        setTimeout(() => onMinimize(win.id), 480);
-    };
-
-    const handleMaximize = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        onMaximize(win.id);
-    };
-
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
         onFocus(win.id);
-        dragRef.current = { startX: e.clientX, startY: e.clientY, origLeft: win.x, origTop: win.y };
+        const target = e.target as HTMLElement;
+        if (target.closest('button')) return;
+
+        dragRef.current = {
+            startX: e.clientX,
+            startY: e.clientY,
+            origLeft: win.x,
+            origTop: win.y,
+        };
 
         const onMouseMove = (ev: MouseEvent) => {
             if (!dragRef.current) return;
@@ -77,59 +66,79 @@ export const Window: React.FC<WindowProps> = ({
             animState === 'out' ? 'window-close' :
                 animState === 'min' ? 'window-minimize' : '';
 
-    const titlebarBase = 'h-7 flex items-center px-2 gap-1.5 flex-shrink-0 relative border-b';
-    const titlebarStyle = gameStyle
-        ? `${titlebarBase} border-game-primary`
-        : `${titlebarBase} titlebar-grad border-[#aaa89f] cursor-grab active:cursor-grabbing`;
-    const titleBarInlineStyle = gameStyle
-        ? { background: 'linear-gradient(90deg, #0a0a1a, #1a0a2e, #0a0a1a)', borderBottomColor: '#00ff88' }
-        : {};
+    const gameGlassBg = gameStyle
+        ? 'linear-gradient(135deg, rgba(8,8,20,0.80) 0%, rgba(12,4,28,0.80) 100%)'
+        : undefined;
 
     return (
         <div
             role="dialog"
             aria-modal="false"
             aria-label={title}
-            className={`absolute flex flex-col bg-[#ececea] border border-[#888880] rounded-lg overflow-hidden ${animClass}`}
+            className={`absolute flex flex-col overflow-hidden window-glass ${animClass}`}
             style={{
                 left: win.x, top: win.y,
                 width: win.width, height: win.height,
                 zIndex: win.zIndex,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.6)',
-                minWidth: 320, minHeight: 200,
+                minWidth: 340, minHeight: 220,
                 willChange: 'transform, opacity',
+                background: gameStyle ? gameGlassBg : undefined,
+                borderColor: gameStyle ? 'rgba(0,255,136,0.25)' : undefined,
             }}
             onMouseDown={() => onFocus(win.id)}
         >
             {/* Title bar */}
-            <div className={titlebarStyle} style={titleBarInlineStyle} onMouseDown={handleMouseDown}>
-                {/* Traffic lights */}
-                <div className="flex gap-1.5 items-center flex-shrink-0 group">
+            <div
+                className="h-10 border-b flex items-center justify-between px-4 sticky top-0 z-10 cursor-grab active:cursor-grabbing flex-shrink-0"
+                onMouseDown={handleMouseDown}
+                style={gameStyle ? {
+                    background: 'rgba(0,255,136,0.06)',
+                    borderBottom: '1px solid rgba(0,255,136,0.18)',
+                    borderRadius: 'calc(var(--glass-radius) - 1px) calc(var(--glass-radius) - 1px) 0 0',
+                } : {
+                    background: 'rgba(20,20,26,0.5)',
+                    borderColor: 'rgba(255,255,255,0.06)',
+                    backdropFilter: 'blur(16px)'
+                }}
+            >
+                {/* Left: Window actions */}
+                <div className="flex gap-2" onMouseDown={e => e.stopPropagation()}>
                     <button
-                        onClick={handleClose}
-                        aria-label="Close"
-                        className="w-3 h-3 rounded-full bg-[#ff5f57] border border-[#e0342c] flex items-center justify-center text-[7px] text-transparent group-hover:text-black/50 transition-colors hover:scale-110"
+                        onClick={(e) => { e.stopPropagation(); onClose(win.id); }}
+                        className="w-3.5 h-3.5 rounded-full bg-[#ff5f57] border border-[#e0342c]/50 flex items-center justify-center text-[7px] text-transparent group-hover:text-black/60 transition-all hover:scale-110 hover:brightness-110 shadow-sm"
                     >✕</button>
                     <button
-                        onClick={handleMinimize}
-                        aria-label="Minimize"
-                        className="w-3 h-3 rounded-full bg-[#febc2e] border border-[#d5920a] flex items-center justify-center text-[7px] text-transparent group-hover:text-black/50 transition-colors hover:scale-110"
+                        onClick={(e) => { e.stopPropagation(); onMinimize(win.id); }}
+                        className="w-3.5 h-3.5 rounded-full bg-[#febc2e] border border-[#d5920a]/50 flex items-center justify-center text-[7px] text-transparent group-hover:text-black/60 transition-all hover:scale-110 hover:brightness-110 shadow-sm"
                     >−</button>
                     <button
-                        onClick={handleMaximize}
-                        aria-label="Maximize"
-                        className="w-3 h-3 rounded-full bg-[#28c840] border border-[#14a62a] flex items-center justify-center text-[7px] text-transparent group-hover:text-black/50 transition-colors hover:scale-110"
+                        onClick={(e) => { e.stopPropagation(); onMaximize(win.id); }}
+                        className="w-3.5 h-3.5 rounded-full bg-[#28c840] border border-[#14a62a]/50 flex items-center justify-center text-[7px] text-transparent group-hover:text-black/60 transition-all hover:scale-110 hover:brightness-110 shadow-sm"
                     >+</button>
                 </div>
 
-                {/* Title */}
-                <div className={`flex-1 text-center text-[12px] font-semibold tracking-tight pointer-events-none font-mono ${gameStyle ? 'text-game-primary' : 'text-[#3a3a36]'}`}>
-                    <span className="mr-1">{titleIcon}</span>{title}
+                {/* Center: Title */}
+                <div
+                    className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none"
+                    style={{ opacity: 1 }}
+                >
+                    {titleIcon && <span className="text-[15px]">{titleIcon}</span>}
+                    <span
+                        className="text-[14px] font-medium tracking-tight"
+                        style={{
+                            fontFamily: 'Inter, -apple-system, sans-serif',
+                            letterSpacing: '-0.01em',
+                            color: gameStyle ? 'rgba(0,255,136,0.90)' : 'rgba(255,255,255,0.85)',
+                            textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+                        }}
+                    >
+                        {title}
+                    </span>
                 </div>
             </div>
 
-            {/* Content */}
-            <div className={`flex-1 overflow-y-auto overflow-x-hidden ${gameStyle ? 'bg-game-bg' : ''}`}>
+            {/* Content area */}
+            <div className={`flex-1 overflow-y-auto overflow-x-hidden window-glass-content ${gameStyle ? '!bg-transparent' : ''}`}>
                 {children}
             </div>
         </div>

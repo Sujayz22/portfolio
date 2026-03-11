@@ -19,11 +19,11 @@ export interface WindowState {
 }
 
 const INITIAL_POSITIONS: Record<WindowId, Partial<WindowState>> = {
-    education: { x: 120, y: 80, width: 560, height: 440 },
-    worklog: { x: 200, y: 120, width: 600, height: 480 },
-    projects: { x: 280, y: 60, width: 680, height: 520 },
-    specs: { x: 160, y: 100, width: 520, height: 460 },
-    habitforge: { x: 340, y: 90, width: 620, height: 520 },
+    education: { x: 80, y: 100, width: 560, height: 440 },
+    worklog: { x: 120, y: 140, width: 600, height: 480 },
+    projects: { x: 680, y: 100, width: 680, height: 520 },
+    specs: { x: 160, y: 120, width: 520, height: 460 },
+    habitforge: { x: 300, y: 60, width: 660, height: 560 },
 };
 
 let highestZ = 100;

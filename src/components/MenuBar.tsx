@@ -2,24 +2,22 @@ import React, { useEffect, useState, useRef } from 'react';
 import { drawLogoS } from '../utils/pixelArt';
 import type { WindowId } from '../hooks/useWindowManager';
 
-interface MenuBarProps {
-    onOpenWindow: (id: WindowId) => void;
-}
-
-const WINDOW_IDS: { id: WindowId; label: string }[] = [
-    { id: 'education', label: 'Open Education' },
-    { id: 'worklog', label: 'Open Work Log' },
-    { id: 'projects', label: 'Open Projects' },
-    { id: 'specs', label: 'Open System Specs' },
-    { id: 'habitforge', label: 'Open HabitForge' },
+const WINDOW_IDS: { id: WindowId; label: string; icon: string }[] = [
+    { id: 'education', label: 'Education', icon: '🎓' },
+    { id: 'worklog',   label: 'Work Log',  icon: '💼' },
+    { id: 'projects',  label: 'Projects',  icon: '🗂' },
+    { id: 'specs',     label: 'System Specs', icon: '⚙' },
+    { id: 'habitforge', label: 'HabitForge', icon: '🎮' },
 ];
 
 interface MenuBarProps {
     onOpenWindow: (id: WindowId) => void;
     onShutdown: () => void;
+    onOpenSpotlight: () => void;
+    onOpenSettings: () => void;
 }
 
-export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown }) => {
+export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown, onOpenSpotlight, onOpenSettings }) => {
     const logoRef = useRef<HTMLCanvasElement>(null);
     const [clock, setClock] = useState('');
     const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -27,7 +25,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown }) =>
     useEffect(() => {
         if (logoRef.current) {
             const ctx = logoRef.current.getContext('2d')!;
-            drawLogoS(ctx, 18, 18, '#1a1a18');
+            drawLogoS(ctx, 18, 18, 'rgba(255,255,255,0.92)');
         }
     }, []);
 
@@ -55,18 +53,18 @@ export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown }) =>
         setOpenMenu(prev => prev === name ? null : name);
     };
 
-    const itemBase = 'relative h-full flex items-center px-2.5 text-[12px] font-mono text-[#1a1a18] cursor-pointer hover:bg-black/10 select-none whitespace-nowrap';
+    const itemBase = 'relative h-full flex items-center px-3 cursor-pointer select-none transition-all duration-100 rounded-[6px] mx-0.5 menubar-item-text';
+    const itemActive = 'bg-white/15 backdrop-blur-sm';
 
     return (
         <header
-            className="fixed top-0 left-0 right-0 h-6 menubar-grad border-b border-[#a0a098] flex items-center justify-between z-[900] shadow-[0_1px_3px_rgba(0,0,0,0.2)]"
-            style={{ borderBottom: '1px solid #a0a098' }}
+            className="menubar-invisible fixed top-0 left-0 right-0 h-7 flex items-center justify-between z-[900] px-1"
         >
             {/* Left side */}
-            <nav className="flex items-center h-full">
+            <nav className="flex items-center h-full gap-0.5">
                 {/* Apple/Sujay Logo */}
                 <div
-                    className={`${itemBase} px-2 ${openMenu === 'apple' ? 'bg-[#2a58c5]' : ''}`}
+                    className={`${itemBase} px-2.5 ${openMenu === 'apple' ? itemActive : ''}`}
                     onClick={e => toggle('apple', e)}
                     role="button"
                     aria-haspopup="true"
@@ -75,69 +73,69 @@ export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown }) =>
                     <canvas ref={logoRef} width={18} height={18} />
                     {openMenu === 'apple' && (
                         <div
-                            className="absolute top-full left-0 min-w-[220px] bg-[#eeeeea]/95 backdrop-blur-sm border border-[#a0a098] rounded-b-lg shadow-xl z-50 overflow-hidden"
+                            className="glass-dropdown absolute top-[calc(100%+6px)] left-0 min-w-[230px] z-50 overflow-hidden py-1.5"
                             onClick={e => e.stopPropagation()}
                         >
-                            <div className="px-3.5 py-1.5 text-[10px] font-pixel text-[#787872] bg-black/4 tracking-wider">SujayOS v1.0</div>
-                            <div className="h-px bg-[#d4d4cc]" />
+                            <div className="px-3.5 py-1 text-[10px] font-semibold text-white/30 tracking-widest uppercase">SujayOS v2.0</div>
+                            <div className="h-px mx-3 bg-white/10 my-1" />
                             <a
                                 href="mailto:sujayjsx@gmail.com"
-                                className="flex items-center gap-2.5 px-3.5 py-1.5 text-[12px] font-mono text-[#1a1a18] hover:bg-[#2a58c5] hover:text-white transition-colors"
+                                className="glass-dropdown-item flex items-center gap-2.5 cursor-pointer"
                             >
-                                <span className="opacity-70">✉</span> sujayjsx@gmail.com
+                                <span className="opacity-60">✉</span> sujayjsx@gmail.com
                             </a>
                             <a
                                 href="#"
-                                className="flex items-center gap-2.5 px-3.5 py-1.5 text-[12px] font-mono text-[#1a1a18] hover:bg-[#2a58c5] hover:text-white transition-colors"
+                                className="glass-dropdown-item flex items-center gap-2.5 cursor-pointer"
                             >
-                                <span className="opacity-70">⬇</span> Download Résumé (PDF)
+                                <span className="opacity-60">⬇</span> Download Résumé (PDF)
                             </a>
-                            <div className="h-px bg-[#d4d4cc]" />
+                            <div className="h-px mx-3 bg-white/10 my-1" />
                             <a
                                 href="https://github.com/Sujayz22"
                                 target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-2.5 px-3.5 py-1.5 text-[12px] font-mono text-[#1a1a18] hover:bg-[#2a58c5] hover:text-white transition-colors"
+                                className="glass-dropdown-item flex items-center gap-2.5"
                             >
-                                <span className="opacity-70">⌥</span> GitHub
+                                <span className="opacity-60">⌥</span> GitHub
                             </a>
                             <a
                                 href="https://in.linkedin.com/in/sujaypandajsx"
                                 target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-2.5 px-3.5 py-1.5 text-[12px] font-mono text-[#1a1a18] hover:bg-[#2a58c5] hover:text-white transition-colors"
+                                className="glass-dropdown-item flex items-center gap-2.5"
                             >
-                                <span className="opacity-70">⌘</span> LinkedIn
+                                <span className="opacity-60">⌘</span> LinkedIn
                             </a>
-                            <div className="h-px bg-[#d4d4cc]" />
+                            <div className="h-px mx-3 bg-white/10 my-1" />
                             <div
                                 onClick={onShutdown}
-                                className="flex items-center gap-2.5 px-3.5 py-1.5 text-[12px] font-mono text-[#1a1a18] hover:bg-[#e74c3c] hover:text-white transition-colors cursor-pointer"
+                                className="glass-dropdown-item flex items-center gap-2.5 cursor-pointer hover:!bg-red-500/30 hover:!text-red-200"
                             >
-                                <span className="opacity-70">⏻</span> Shut Down…
+                                <span className="opacity-60">⏻</span> Shut Down…
                             </div>
                         </div>
                     )}
                 </div>
 
-                <div className={`${itemBase} font-bold`}>Finder</div>
+                <div className={`${itemBase} font-semibold`}>Finder</div>
 
                 {/* File menu */}
                 <div
-                    className={`${itemBase} ${openMenu === 'file' ? 'bg-[#2a58c5] text-white' : ''}`}
+                    className={`${itemBase} ${openMenu === 'file' ? itemActive : ''}`}
                     onClick={e => toggle('file', e)}
                 >
                     File
                     {openMenu === 'file' && (
                         <div
-                            className="absolute top-full left-0 min-w-[200px] bg-[#eeeeea]/95 backdrop-blur-sm border border-[#a0a098] rounded-b-lg shadow-xl z-50 overflow-hidden"
+                            className="glass-dropdown absolute top-[calc(100%+6px)] left-0 min-w-[200px] z-50 overflow-hidden py-1.5"
                             onClick={e => e.stopPropagation()}
                         >
-                            {WINDOW_IDS.map(({ id, label }) => (
+                            {WINDOW_IDS.map(({ id, label, icon }) => (
                                 <div
                                     key={id}
                                     onClick={() => { onOpenWindow(id); setOpenMenu(null); }}
-                                    className="flex items-center px-3.5 py-1.5 text-[12px] font-mono text-[#1a1a18] hover:bg-[#2a58c5] hover:text-white transition-colors cursor-pointer"
+                                    className="glass-dropdown-item flex items-center gap-2.5 cursor-pointer"
                                 >
-                                    {label}
+                                    <span>{icon}</span> {label}
                                 </div>
                             ))}
                         </div>
@@ -149,10 +147,34 @@ export const MenuBar: React.FC<MenuBarProps> = ({ onOpenWindow, onShutdown }) =>
             </nav>
 
             {/* Right side */}
-            <nav className="flex items-center h-full">
+            <nav className="flex items-center h-full gap-0.5">
+                {/* CMD+K Spotlight pill */}
+                <button
+                    onClick={onOpenSpotlight}
+                    className="flex items-center gap-1.5 h-[22px] px-2.5 rounded-full cursor-pointer transition-all duration-150 hover:bg-white/15 menubar-item-text text-[11px]"
+                    style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+                >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35" strokeLinecap="round"/>
+                    </svg>
+                    <span className="text-white/70">⌘K</span>
+                </button>
+
                 <div className={`${itemBase} text-[11px]`}>⚡ 97%</div>
                 <div className={`${itemBase} text-[11px]`}>▲ Connected</div>
-                <div className={`${itemBase} text-[11px] min-w-[140px] justify-center`}>{clock}</div>
+
+                {/* Clock */}
+                <div className={`${itemBase} text-[11px] min-w-[145px] justify-center`}>{clock}</div>
+
+                {/* Settings gear */}
+                <button
+                    onClick={onOpenSettings}
+                    className={`${itemBase} text-[13px] hover:rotate-45 transition-transform duration-300`}
+                    aria-label="System Settings"
+                >
+                    ⚙
+                </button>
             </nav>
         </header>
     );
