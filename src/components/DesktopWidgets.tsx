@@ -123,7 +123,7 @@ const WakaWidget: React.FC = () => {
         setLoading(true);
         try {
             const targetUrl = `https://wakatime.com/api/v1/users/${WAKATIME_USER}/stats/all_time`;
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
             
             const res = await fetch(proxyUrl);
             if (!res.ok) {
