@@ -123,18 +123,32 @@ const WakaWidget: React.FC = () => {
         setLoading(true);
         try {
             const targetUrl = `https://wakatime.com/api/v1/users/${WAKATIME_USER}/stats/all_time`;
-            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+                `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+                `https://corsproxy.org/?${encodeURIComponent(targetUrl)}`
+            ];
             
-            const res = await fetch(proxyUrl);
-            if (!res.ok) {
-                // console.error(`WakaTime API HTTP ${res.status}`);
-                throw new Error(`HTTP ${res.status}`);
-            }
-            const json = await res.json();
-            const d = json.data || {};
+            let d = null;
+            let lastError = null;
 
-            // Check if we actually received meaningful data (total_seconds > 0 or has languages)
-            if ((d.total_seconds && d.total_seconds > 0) || (d.languages && d.languages.length > 0)) {
+            for (const proxyUrl of proxies) {
+                try {
+                    const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    const json = await res.json();
+                    
+                    if (json.data && ((json.data.total_seconds > 0) || (json.data.languages && json.data.languages.length > 0))) {
+                        d = json.data;
+                        break; // Success
+                    }
+                } catch (err) {
+                    lastError = err;
+                    // continue to next proxy
+                }
+            }
+
+            if (d) {
                 setData({
                     total_seconds: d.total_seconds || 0,
                     daily_average: d.daily_average || 0,
@@ -143,8 +157,7 @@ const WakaWidget: React.FC = () => {
                 });
                 setIsMock(false);
             } else {
-                // If API returns empty/zeroed data (often due to privacy settings), fallback to mock
-                throw new Error("Empty data received from API");
+                throw lastError || new Error("All proxies failed or returned empty data");
             }
         } catch (e) {
             // console.warn("Using WakaTime demo data:", e);
